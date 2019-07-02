@@ -1,0 +1,26 @@
+﻿<UserControl x:Class="Communication.App.Views.MainMenu"
+             x:Name="TestWindow"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Communication.App.Views"
+             xmlns:viewModels="clr-namespace:Communication.App.ViewModels"
+             mc:Ignorable="d"
+             DataContext="{Binding Source={StaticResource ViewModelLocator}, Path=MainMenuViewModel}"
+             d:DataContext="{d:DesignInstance viewModels:MainMenuViewModel}"
+             d:DesignHeight="100" d:DesignWidth="1000">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+        </Grid.ColumnDefinitions>
+        <Button Grid.Column="0" Content="Můj profil" Height="Auto" Command="{Binding OpenMyProfile}" FontWeight="Black" BorderBrush="Black"/>
+        <Button Grid.Column="1" Content="Hledat uživatele" Height="Auto" Command="{Binding SearchUser}" FontWeight="Black" BorderBrush="Black" />
+
+        <Button Grid.Column="4" Content="Odhlásit" Height="Auto" Click="LogoutButton_Click"  Background="#2f2f2f " BorderBrush="Black" FontWeight="Black" />
+    </Grid>
+</UserControl>

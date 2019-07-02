@@ -1,0 +1,22 @@
+﻿<UserControl x:Class="Communication.App.Views.AdduserView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:viewModels="clr-namespace:Communication.App.ViewModels" 
+             d:DataContext="{d:DesignInstance viewModels:AdduserViewModel}"
+             xmlns:local="clr-namespace:Communication.App.Views"
+             mc:Ignorable="d" d:DesignWidth="400" Height="102"
+             DataContext="{Binding Source={StaticResource ViewModelLocator}, Path=AdduserViewModel}">
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="123*"></ColumnDefinition>
+            <ColumnDefinition Width="67*"></ColumnDefinition>
+            <ColumnDefinition Width="10*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Button Grid.Column="1" Content="Přidat" FontFamily="15" Foreground="White"  Background="#FF211778" BorderBrush="Black" FontWeight="Black" Command="{Binding AddUserToGroupCommand}"></Button>
+        <TextBox x:Name="MailTextBox" Margin="0,02" materialDesign:HintAssist.Hint="Email - přidání člena" Style="{StaticResource MaterialDesignFloatingHintTextBox}" FontFamily="Champagne &amp; Limousines" Text="{Binding addedUserEmail, UpdateSourceTrigger=PropertyChanged}" FontSize="13" HorizontalAlignment="Center" VerticalAlignment="Center" />
+    </Grid>
+</UserControl>

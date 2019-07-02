@@ -1,0 +1,33 @@
+﻿<UserControl x:Class="Communication.App.Views.GroupListView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:viewModels="clr-namespace:Communication.App.ViewModels"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Communication.App.Views"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             d:DataContext="{d:DesignInstance viewModels:GroupListViewModel}"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800"
+             DataContext="{Binding Source={StaticResource ViewModelLocator}, Path=GroupListViewModel}">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Button Grid.Row="0" Content="Založit novou skupinu"  Command="{Binding AddNewGroupCommandVisibly}"  Background="#FF211778" BorderBrush="Black" FontWeight="Black"/>
+        <ListBox x:Name="GroupsListBox" Grid.Row="1" ItemsSource="{Binding Groups}">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="SelectionChanged">
+                    <i:InvokeCommandAction Command="{Binding GroupSelectedCommand}"
+                                           CommandParameter="{Binding ElementName=GroupsListBox, Path=SelectedItem}" />
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Label HorizontalAlignment="Center" FontWeight="Bold" VerticalAlignment="Center" Content="{Binding Name}" Margin="20,0,0,0"/>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+    </Grid>
+</UserControl>

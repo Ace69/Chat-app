@@ -1,0 +1,137 @@
+﻿<UserControl x:Class="Communication.App.Views.ContributionsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:views="clr-namespace:Communication.App.Views"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:viewModels="clr-namespace:Communication.App.ViewModels"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:local="clr-namespace:Communication.App.Views"
+             d:DataContext="{d:DesignInstance viewModels:ContributionViewModel}"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800"
+             DataContext="{Binding Source={StaticResource ViewModelLocator}, Path=ContributionViewModel}">
+
+    <Grid Visibility="{Binding contributionModel, Converter={StaticResource NullToVisibilityConverter}}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="5*"></ColumnDefinition>
+            <ColumnDefinition Width="2*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <!--Okno s výčtem uživatelů a odebráním a přidáním usera-->
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*"></RowDefinition>
+                <RowDefinition Height="8*"></RowDefinition>
+                <RowDefinition Height="2*"></RowDefinition>
+            </Grid.RowDefinitions>
+            <views:UsersInGroupView Grid.Row="1"/>
+            <!--Napis-->
+            <Rectangle Grid.Row="0">
+                <Rectangle.Fill>
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="20,0">
+                        <GradientStop Color="#FF2281D1"/>
+                        <GradientStop Color="#FF382999" Offset="2"/>
+                        <GradientStop Color="#FF0F5FA2" Offset="0.7"/>
+                    </LinearGradientBrush>
+                </Rectangle.Fill>
+            </Rectangle>
+            <Grid Grid.Row="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"></ColumnDefinition>
+                    <ColumnDefinition Width="4*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="1" Text="Členové ve skupině" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Verdana" FontWeight="Bold" FontSize="14"></TextBlock>
+                <Viewbox x:Name="ViewboxIcon2" Grid.Column="0" Grid.Row="1">
+                    <materialDesign:PackIcon Kind="Users" Height="20" Width="15"/>
+                </Viewbox>
+
+            </Grid>
+
+            <views:MembersOfGroupView Grid.Row="1" />
+
+            <!--Pridat a odebrat clena-->
+            <Grid Grid.Row="2">
+
+                <Grid.RowDefinitions>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
+                <views:AdduserView Grid.Row="0"/>
+                <views:RemoveUser Grid.Row="1"/>
+            </Grid>
+        </Grid>
+
+
+        <!--Okno s příspěvkem a button-->
+        <Grid Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <Grid Grid.Row="1" Margin="20,20,20,30">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" MinWidth="53"/>
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <TextBox FontFamily="Verdana" FontSize="16" Grid.Row="0" Grid.Column="1" Margin="20,5,44,5" Text="{Binding contributionModel.Title, UpdateSourceTrigger=PropertyChanged}" materialDesign:HintAssist.Hint="Titulek vašeho příspěvku" Style="{StaticResource MaterialDesignFloatingHintTextBox}"/>
+                <TextBox FontFamily="Verdana" FontSize="13" TextWrapping="Wrap" MinHeight="25" MaxHeight="200" Grid.Row="1" Grid.Column="1" Margin="20,10,44,5" 
+                     Text="{Binding contributionModel.Message, UpdateSourceTrigger=PropertyChanged}"  materialDesign:HintAssist.Hint="Text vašeho příspěvku" Style="{StaticResource MaterialDesignFloatingHintTextBox}"/>
+                <Grid Grid.Row="2" Grid.Column="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="3*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Button Grid.Row="0" Margin="280,10,41,20" Content="Přidat Příspěvek" Command="{Binding ContributionNewCommand}" Grid.ColumnSpan="2" Background="#FF211778" BorderBrush="Black" FontWeight="Black" />
+                </Grid>
+                <Grid.InputBindings>
+                    <KeyBinding Key="Return" Command="{Binding ContributionNewCommand}" />
+                </Grid.InputBindings>
+            </Grid>
+            <ListBox x:Name="ContributionsListBox" Grid.Row="0" ItemsSource="{Binding Contributions}" >
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="SelectionChanged">
+                        <i:InvokeCommandAction Command="{Binding ContributionSelectedCommand}"
+                                           CommandParameter="{Binding ElementName=ContributionsListBox, Path=SelectedItem}" />
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <Grid Grid.IsSharedSizeScope="True">
+                            <Grid.RowDefinitions>
+                                <RowDefinition />
+                                <RowDefinition />
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+                            <Grid Grid.Row="0" HorizontalAlignment="Stretch">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="auto"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Padding="0,0,15,0" VerticalAlignment="Bottom" FontFamily="Verdana" FontSize="18" FontWeight="Bold" Grid.Column="0" Text="{Binding Title}" />
+                                <TextBlock Padding="0,0,5,0" VerticalAlignment="Bottom" FontFamily="Verdana" FontSize="16" Grid.Column="1" Text="{Binding User.Name}" />
+                                <TextBlock Padding="0,0,5,0" VerticalAlignment="Bottom" FontFamily="Verdana" FontSize="16" Grid.Column="2" Text="{Binding User.Surname}" />
+                                <TextBlock Padding="0,0,5,0" VerticalAlignment="Bottom" FontFamily="Verdana" FontSize="12" Grid.Column="3" Text="{Binding Time}" />
+                                <TextBlock Padding="0,0,5,0" Width="auto" VerticalAlignment="Center"  HorizontalAlignment="Right" FontFamily="Verdana" FontSize="12" Grid.Column="4" Text="{Binding Comments.Count}" />
+                                <materialDesign:PackIcon Padding="0,0,5,0" VerticalAlignment="Bottom" HorizontalAlignment="Right" Grid.Column="5" Kind="Chat" Height="20" Width="15" />
+                            </Grid>
+                            <TextBox MinWidth="1600" Grid.Column="0" TextWrapping="Wrap" FontFamily="Verdana" FontSize="13" BorderThickness="0" HorizontalAlignment="Left" 
+                                 IsReadOnly="True" Cursor="Arrow" Grid.Row="1" Text="{Binding Message}" />
+                        </Grid>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </Grid>
+    </Grid>
+</UserControl>

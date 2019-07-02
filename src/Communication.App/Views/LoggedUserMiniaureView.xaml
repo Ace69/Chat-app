@@ -1,0 +1,49 @@
+﻿<UserControl x:Class="Communication.App.Views.LoggedUserMiniaureView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:viewModels="clr-namespace:Communication.App.ViewModels"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             d:DataContext="{d:DesignInstance viewModels:LoggedUserViewModel}"
+             DataContext="{Binding Source={StaticResource ViewModelLocator}, Path=LoggedUserViewModel}"
+             xmlns:local="clr-namespace:Communication.App.Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="200" d:DesignWidth="300">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="4*"/>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="1*"/>
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="4*"/>
+        </Grid.ColumnDefinitions>
+
+        <Viewbox x:Name="ViewboxName" Grid.Column="1" Grid.Row="0">
+            <TextBlock x:Name="TextBlockName" FontWeight="Bold">
+                <TextBlock.Text>
+                    <MultiBinding StringFormat="{}{0} {1}">
+                        <Binding Path="Model.Name"/>
+                        <Binding Path="Model.Surname" />
+                    </MultiBinding>
+                </TextBlock.Text>
+            </TextBlock>
+        </Viewbox>
+
+        <Viewbox x:Name="ViewboxEmail" Grid.Column="1" Grid.Row="1">
+            <TextBlock x:Name="TextBlockEmail" Text="{Binding Model.Email}"></TextBlock>
+        </Viewbox>
+
+        <Viewbox x:Name="ViewboxIcon2" Grid.Column="0" Grid.Row="1">
+            <materialDesign:PackIcon Kind="Mail" Height="20" Width="15"/>
+        </Viewbox>
+
+        <Viewbox x:Name="ViewboxIcon1" Grid.Column="0" Grid.Row="0">
+            <materialDesign:PackIcon Kind="Account" Height="14" Width="11"/>
+        </Viewbox>
+
+    </Grid>
+</UserControl>
